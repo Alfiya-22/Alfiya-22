@@ -1,0 +1,13 @@
+from apiclient.http import MediaIoBaseDownload
+
+with open('/tmp/downloaded_from_gcs.txt', 'wb') as f:
+  request = gcs_service.objects().get_media(bucket=bucket_name,
+                                            object='to_upload.txt')
+  media = MediaIoBaseDownload(f, request)
+
+  done = False
+  while not done:
+    # _ is a placeholder for a progress object that we ignore.
+    # (Our file is small, so we skip reporting progress.)
+    _, done = media.next_chunk()
+
